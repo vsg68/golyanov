@@ -31,6 +31,8 @@ $params=array();
 		$params['dir_tpl'] 	= 'tpl-gallery-series';
 		$params['thumb_tpl'] 	= 'tpl-gallery-thumb';
 		$params['gid']		= $id;
+		$params['limit']	= 20;
+		$params['gpn']		= ( isset($page) && $page > 0) ? $page : 1;
 
 		echo $modx->runSnippet('easy2',$params);
 
