@@ -1,0 +1,64 @@
+# For full documentation and other suggested options, please see
+# http://svn.modxcms.com/docs/display/MODx096/Friendly+URL+Solutions
+# including for unexpected logouts in multi-server/cloud environments
+# and especially for the first three commented out rules
+
+php_flag register_globals Off
+#AddDefaultCharset utf-8
+php_value date.timezone "Europe/Moscow"
+
+<FilesMatch "\.(js|css|html|gif)$">
+    SetOutputFilter DEFLATE
+    Header set Cache-Control "max-age=2592000, public"
+    BrowserMatch ^Konqueror no-gzip
+</FilesMatch>
+
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE image/gif
+
+
+Options +FollowSymlinks
+RewriteEngine On
+RewriteBase /
+
+# Fix Apache internal dummy connections from breaking [(site_url)] cache
+RewriteCond %{HTTP_USER_AGENT} ^.*internal\ dummy\ connection.*$ [NC]
+RewriteRule .* - [F,L]
+
+# Rewrite domain.com -> www.domain.com -- used with SEO Strict URLs plugin
+#RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule (.*) http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+
+# Exclude /assets and /manager directories and images from rewrite rules
+RewriteRule ^(manager|assets)/*$ - [L]
+RewriteRule \.(jpg|jpeg|png|gif|ico)$ - [L]
+
+RewriteCond %{HTTP_REFERER} !^http://%{HTTP_HOST}/.*
+RewriteCond %{REQUEST_URI} ^/img/.*
+RewriteCond %{QUERY_STRING}  (fid=[0-9]+)
+RewriteRule ^(.*)$ assets/modules/easy2/show.easy2gallery.php?%1 [NC]
+
+
+RewriteCond %{HTTP_REFERER} ^http://%{HTTP_HOST}/.*
+RewriteCond %{REQUEST_URI} !^/23/
+RewriteRule ^([0-9]+)(/)?$ / [L]
+
+
+
+# For Friendly URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+
+
+
+# Reduce server overhead by enabling output compression if supported.
+#php_flag zlib.output_compression On
+#php_value zlib.output_compression_level 5
+
+AddType text/x-component .htc
+
+#

@@ -1,0 +1,44 @@
+
+.highslide-body {
+	color: #333;
+	font-size: 12px;
+	font-family: tahoma,verdana;
+}
+.errors {
+	color: red;
+	font-weight: normal;
+	font-size: 11px !important;
+	margin-left: 30px;
+}
+#mailform   {
+	margin: 5px;
+	width: 350px;
+	height: 250px;
+ }
+ 
+#mailform  label {
+	margin-left: 10px;
+	padding:0;
+	font-weight: bold !important;
+}
+#mailform  table {
+	width: 100%;
+	margin: 0px;
+}
+
+#mailform  table td {
+	padding: 5px;
+}
+
+#mailform  textarea {
+	height: 45px;
+	resize: none;
+}
+#mailform input[type="text"],textarea {
+	width: 100%;
+	border:solid 1px #848388;
+}
+
+*html  #mailform{
+	margin-bottom: 0px;
+}
